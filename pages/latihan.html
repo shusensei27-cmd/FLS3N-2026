@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Gaya dasar (mirip dengan style.css Anda, ditambah chat bubble) */
         * {
             margin: 0;
             padding: 0;
@@ -139,14 +138,19 @@
             gap: 16px;
             padding: 10px;
         }
+        /* PERBAIKAN EKSTRA: Teks tidak terpotong */
         .chat-bubble {
             padding: 12px 18px;
             border-radius: 20px;
-            max-width: 90%;
+            max-width: 100%;
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;    /* Kunci: mempertahankan spasi dan baris baru */
+            word-break: break-word;
             font-size: 0.9rem;
             line-height: 1.5;
             animation: fadeInUp 0.3s ease;
+            display: inline-block;
         }
         .chat-bubble.user {
             background: linear-gradient(135deg, #1a2a3a, #0f1a2a);
@@ -222,7 +226,6 @@
             .nav-links.active { left: 0; }
             .hero-title { font-size: 2rem; }
         }
-        /* custom scroll */
         .chat-messages::-webkit-scrollbar {
             width: 6px;
         }
@@ -256,7 +259,7 @@
         <section class="hero glass-panel">
             <div class="hero-content">
                 <h1 class="hero-title"><span class="gradient-text">Simulasi Generator Ide</span></h1>
-                <p class="hero-subtitle">Klik tombol di bawah untuk mendapatkan ide poster atau komik. Setiap bagian punya riwayat chat sendiri.</p>
+                <p class="hero-subtitle">Klik tombol di bawah untuk mendapatkan ide poster atau komik. Chat akan tersimpan secara otomatis.</p>
             </div>
         </section>
 
@@ -265,18 +268,14 @@
                 <!-- KOLOM POSTER -->
                 <div class="chat-panel glass-panel">
                     <h2><i class="fas fa-paintbrush" style="color:#00d4ff"></i> Generator Ide Poster</h2>
-                    <div class="chat-messages" id="posterChat">
-                        <!-- Bubble chat awal akan ditambahkan oleh JS -->
-                    </div>
+                    <div class="chat-messages" id="posterChat"></div>
                     <button id="generatePosterBtn" class="generate-btn"><i class="fas fa-magic"></i> Generate Ide Poster</button>
                 </div>
 
                 <!-- KOLOM KOMIK -->
                 <div class="chat-panel glass-panel">
                     <h2><i class="fas fa-book-open" style="color:#7b2cbf"></i> Generator Ide Komik</h2>
-                    <div class="chat-messages" id="komikChat">
-                        <!-- Bubble chat awal -->
-                    </div>
+                    <div class="chat-messages" id="komikChat"></div>
                     <button id="generateKomikBtn" class="generate-btn"><i class="fas fa-magic"></i> Generate Ide Komik</button>
                 </div>
             </div>
@@ -288,28 +287,77 @@
     </main>
 
     <script>
-        const WORKER_URL = 'https://long-smoke-42e8.shusensei27.workers.dev'; // GANTI
+        // ======================== KONFIGURASI ========================
+        const WORKER_URL = 'https://long-smoke-42e8.shusensei27.workers.dev';
+        const STORAGE_KEY_POSTER = 'chatHistory_poster';
+        const STORAGE_KEY_KOMIK = 'chatHistory_komik';
 
-        async function addMessage(container, role, content) {
+        // Fungsi untuk menambahkan pesan ke container dan menyimpan ke localStorage
+        async function addMessage(container, role, content, storageKey) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-bubble ${role}`;
             if (role === 'user') {
-                messageDiv.innerHTML = `<i class="fas fa-user"></i> <strong>Prompt:</strong><br>${content}`;
+                // Untuk keamanan, gunakan textContent untuk prompt user (tidak perlu HTML)
+                messageDiv.innerHTML = `<i class="fas fa-user"></i> <strong>Prompt:</strong><br>${escapeHtml(content)}`;
             } else {
-                messageDiv.innerHTML = `<i class="fas fa-robot"></i> <strong>AI Response:</strong><br>${content.replace(/\n/g, '<br>')}`;
+                // Untuk AI, konversi newline ke <br> dan tampilkan
+                const formattedContent = content.replace(/\n/g, '<br>').replace(/ /g, ' ');
+                messageDiv.innerHTML = `<i class="fas fa-robot"></i> <strong>AI Response:</strong><br>${formattedContent}`;
             }
             container.appendChild(messageDiv);
             container.scrollTop = container.scrollHeight;
+
+            // Simpan ke localStorage (simpan dalam bentuk asli, tanpa HTML)
+            const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            existing.push({ role, content, timestamp: Date.now() });
+            localStorage.setItem(storageKey, JSON.stringify(existing));
+
+            // Debug: lihat panjang teks di console
+            console.log(`[${role}] panjang teks: ${content.length} karakter`);
         }
 
+        // Fungsi sederhana untuk escape HTML (opsional)
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Fungsi untuk memuat riwayat dari localStorage
+        function loadChatHistory(container, storageKey) {
+            const history = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            container.innerHTML = ''; // Kosongkan dulu
+            history.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-bubble ${msg.role}`;
+                if (msg.role === 'user') {
+                    messageDiv.innerHTML = `<i class="fas fa-user"></i> <strong>Prompt:</strong><br>${escapeHtml(msg.content)}`;
+                } else {
+                    messageDiv.innerHTML = `<i class="fas fa-robot"></i> <strong>AI Response:</strong><br>${msg.content.replace(/\n/g, '<br>')}`;
+                }
+                container.appendChild(messageDiv);
+            });
+            if (container.children.length === 0) {
+                // Jika belum ada riwayat, tambahkan pesan sambutan
+                addMessage(container, 'ai', '👋 Halo! Klik tombol di bawah untuk mendapatkan ide.', storageKey);
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Fungsi generate untuk poster
         async function generatePoster() {
             const chatContainer = document.getElementById('posterChat');
             const promptText = "Buatkan ide poster untuk lomba FLS3N 2026 tentang ruang digital remaja. Target 15-18 tahun.";
-            addMessage(chatContainer, 'user', promptText);
+            await addMessage(chatContainer, 'user', promptText, STORAGE_KEY_POSTER);
+            
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'chat-bubble ai';
             loadingDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> AI sedang berpikir...';
             chatContainer.appendChild(loadingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
                 const response = await fetch(WORKER_URL, {
@@ -320,24 +368,27 @@
                 const data = await response.json();
                 loadingDiv.remove();
                 if (data.success) {
-                    addMessage(chatContainer, 'ai', data.ide);
+                    await addMessage(chatContainer, 'ai', data.ide, STORAGE_KEY_POSTER);
                 } else {
-                    addMessage(chatContainer, 'ai', 'Error: ' + data.error);
+                    await addMessage(chatContainer, 'ai', 'Error: ' + data.error, STORAGE_KEY_POSTER);
                 }
             } catch (err) {
                 loadingDiv.remove();
-                addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message);
+                await addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message, STORAGE_KEY_POSTER);
             }
         }
 
+        // Fungsi generate untuk komik
         async function generateKomik() {
             const chatContainer = document.getElementById('komikChat');
             const promptText = "Buatkan ide cerita komik digital untuk lomba FLS3N 2026 dengan tema karakter bangsa di ruang digital.";
-            addMessage(chatContainer, 'user', promptText);
+            await addMessage(chatContainer, 'user', promptText, STORAGE_KEY_KOMIK);
+            
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'chat-bubble ai';
             loadingDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> AI sedang berpikir...';
             chatContainer.appendChild(loadingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
             try {
                 const response = await fetch(WORKER_URL, {
@@ -348,34 +399,35 @@
                 const data = await response.json();
                 loadingDiv.remove();
                 if (data.success) {
-                    addMessage(chatContainer, 'ai', data.ide);
+                    await addMessage(chatContainer, 'ai', data.ide, STORAGE_KEY_KOMIK);
                 } else {
-                    addMessage(chatContainer, 'ai', 'Error: ' + data.error);
+                    await addMessage(chatContainer, 'ai', 'Error: ' + data.error, STORAGE_KEY_KOMIK);
                 }
             } catch (err) {
                 loadingDiv.remove();
-                addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message);
+                await addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message, STORAGE_KEY_KOMIK);
             }
         }
 
-        // Inisialisasi chat kosong (atau dengan sambutan)
-        function initChats() {
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
             const posterContainer = document.getElementById('posterChat');
             const komikContainer = document.getElementById('komikChat');
-            posterContainer.innerHTML = '';
-            komikContainer.innerHTML = '';
-            addMessage(posterContainer, 'ai', '👋 Halo! Klik tombol di bawah untuk mendapatkan ide poster dari AI.');
-            addMessage(komikContainer, 'ai', '📖 Halo! Klik tombol untuk mendapatkan ide cerita komik dari AI.');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initChats();
+            
+            // Muat riwayat dari localStorage
+            loadChatHistory(posterContainer, STORAGE_KEY_POSTER);
+            loadChatHistory(komikContainer, STORAGE_KEY_KOMIK);
+            
+            // Pasang event listener tombol
             document.getElementById('generatePosterBtn').addEventListener('click', generatePoster);
             document.getElementById('generateKomikBtn').addEventListener('click', generateKomik);
-            // burger menu jika ada
+            
+            // Burger menu
             const burger = document.getElementById('burger');
             const navLinks = document.getElementById('navLinks');
-            if (burger) burger.addEventListener('click', () => navLinks.classList.toggle('active'));
+            if (burger) {
+                burger.addEventListener('click', () => navLinks.classList.toggle('active'));
+            }
         });
     </script>
 </body>
