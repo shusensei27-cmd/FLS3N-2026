@@ -1,0 +1,132 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FLS3N 2026 Creative Hub | Belajar Poster & Komik Digital</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/animation.css">
+</head>
+<body>
+    <div class="preloader"><div class="neon-loader"></div><p>LOADING CREATIVE HUB...</p></div>
+
+    <!-- Navbar -->
+    <nav class="navbar glass-panel" id="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-palette"></i><span class="logo-text">FLS3N<span class="neon">2026</span></span></div>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="active">🏠 Home</a>
+                <a href="pages/poster.html">🎨 Desain Poster</a>
+                <a href="pages/komik.html">📚 Komik Digital</a>
+                <a href="pages/latihan.html">⚡ Simulasi</a>
+            </div>
+            <div class="burger" id="burger"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero glass-panel">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="blink-dot"></span> ANAK SMAN1S LOMBA FLS3N 2026</div>
+                <h1 class="hero-title"><span class="gradient-text">FLS3N 2026</span><br>Okta Hub Hub</h1>
+                <p class="hero-subtitle">Belajar Desain Poster & Komik Digital dengan Cara Interaktif<br>⚡ Tingkatkan Karakter Bangsa melalui Kreativitas! ⚡</p>
+                <div class="hero-buttons">
+                    <a href="#materi" class="cta-btn primary glow"><i class="fas fa-rocket"></i> Mulai Belajar</a>
+                    <a href="pages/latihan.html" class="cta-btn secondary"><i class="fas fa-lightbulb"></i> Coba Simulasi</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><span class="stat-number">2</span><span class="stat-label">Cabang Lomba</span></div>
+                <div class="stat"><span class="stat-number">16+</span><span class="stat-label">Tips Expert</span></div>
+                <div class="stat"><span class="stat-number">100%</span><span class="stat-label">Interaktif</span></div>
+            </div>
+        </section>
+
+        <!-- Tema Utama -->
+        <section class="theme-section scroll-reveal">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">TEMA RESMI</span>
+                    <h2>"Menumbuhkan Karakter Bangsa melalui<br>Kreativitas dan Apresiasi Seni Budaya"</h2>
+                    <div class="section-line"></div>
+                    <p class="section-subtitle">Tema ini mengandung makna bahwa pengembangan karakter murid tidak dapat dipisahkan dari proses kreatif dan pemaknaan terhadap nilai-nilai seni budaya bangsa.</p>
+                </div>
+                <div class="theme-cards">
+                    <div class="theme-card glass-panel"><i class="fas fa-brain"></i><h3>Karakter Bangsa</h3><p>Gotong royong, kreatif, mandiri, bernalar kritis, dan berkebinekaan global menjadi fondasi utama dalam setiap karya.</p></div>
+                    <div class="theme-card glass-panel"><i class="fas fa-paintbrush"></i><h3>Kreativitas</h3><p>Kemampuan menghasilkan ide-ide baru, original, dan solutif dalam menyampaikan pesan melalui seni visual.</p></div>
+                    <div class="theme-card glass-panel"><i class="fas fa-mask"></i><h3>Apresiasi Seni Budaya</h3><p>Memahami, menghargai, dan mengintegrasikan nilai-nilai budaya Nusantara ke dalam karya modern.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Materi Poster -->
+        <section id="materi" class="poster-section scroll-reveal">
+            <div class="container">
+                <div class="section-header"><span class="section-tag neon-tag">LOMBA DESAIN POSTER</span><h2>🎨 Kuasai Seni <span class="gradient-text">Desain Poster</span></h2><p>Kampanye sosial edukatif tentang ruang bermain digital bagi anak dan remaja</p></div>
+                <div class="materi-grid">
+                    <div class="materi-card glass-panel interactive-card" data-info="target"><div class="card-icon"><i class="fas fa-users"></i></div><h3>Target Audiens</h3><p>Remaja usia 15-18 tahun, aktif di game online & platform digital</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                    <div class="materi-card glass-panel interactive-card" data-info="prinsip"><div class="card-icon"><i class="fas fa-chart-line"></i></div><h3>Prinsip Desain</h3><p>Warna, Tipografi, Layout, Hierarki Visual</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                    <div class="materi-card glass-panel interactive-card" data-info="checklist"><div class="card-icon"><i class="fas fa-clipboard-list"></i></div><h3>Checklist Wajib</h3><p>Format file, ukuran, dokumen pendukung</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                </div>
+                <div id="infoModal" class="modal"><div class="modal-content glass-panel"><span class="close">&times;</span><div id="modalBody"></div></div></div>
+                <div class="checklist-container glass-panel"><h3><i class="fas fa-check-circle neon-icon"></i> Checklist Penting Desain Poster</h3><div class="checklist-grid"><div class="checklist-item"><i class="fas fa-check-circle"></i> Format PDF HD, ukuran A2 (42 x 59.4 cm) PORTRAIT</div><div class="checklist-item"><i class="fas fa-check-circle"></i> Ukuran file 5-10 MB</div><div class="checklist-item"><i class="fas fa-check-circle"></i> Wajib menyertakan konsep karya (max 500 kata)</div><div class="checklist-item"><i class="fas fa-check-circle"></i> Surat pernyataan keaslian bermaterai</div><div class="checklist-item"><i class="fas fa-check-circle"></i> Tidak menggunakan AI atau aset plagiat</div><div class="checklist-item"><i class="fas fa-check-circle"></i> Pesan harus mengajak bertanggung jawab di ruang digital</div></div></div>
+            </div>
+        </section>
+
+        <!-- Materi Komik Digital -->
+        <section class="komik-section scroll-reveal">
+            <div class="container">
+                <div class="section-header"><span class="section-tag neon-tag purple">LOMBA KOMIK DIGITAL</span><h2>📖 Kuasai Seni <span class="gradient-text">Komik Digital</span></h2><p>Menumbuhkan karakter bangsa melalui cerita visual yang inspiratif</p></div>
+                <div class="materi-grid">
+                    <div class="materi-card glass-panel interactive-card" data-info="storytelling"><div class="card-icon"><i class="fas fa-book-open"></i></div><h3>Storytelling</h3><p>Setup, Konflik, Resolusi - Struktur cerita yang kuat</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                    <div class="materi-card glass-panel interactive-card" data-info="paneling"><div class="card-icon"><i class="fas fa-columns"></i></div><h3>Paneling & Pacing</h3><p>Tata letak panel dan ritme cerita yang memikat</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                    <div class="materi-card glass-panel interactive-card" data-info="ekspresi"><div class="card-icon"><i class="fas fa-face-smile"></i></div><h3>Ekspresi Karakter</h3><p>Menyampaikan emosi melalui visual karakter</p><button class="card-detail-btn">Lihat Detail →</button></div>
+                </div>
+                <div class="storyboard-simulator glass-panel"><h3><i class="fas fa-film"></i> Simulasi Alur Cerita Komik</h3><div class="storyboard-steps"><div class="step"><div class="step-num">1</div><h4>Setup</h4><p>Perkenalkan karakter & latar. Contoh: "Kenalkan, aku Dinda, gamer handal yang lupa waktu."</p></div><div class="step-arrow">→</div><div class="step"><div class="step-num">2</div><h4>Konflik</h4><p>Munculkan masalah. Contoh: "Tiba-tiba ada orang asing mengirim chat mencurigakan..."</p></div><div class="step-arrow">→</div><div class="step"><div class="step-num">3</div><h4>Resolusi</h4><p>Selesaikan dengan pesan moral. Contoh: "Dinda belajar untuk tidak menerima chat dari orang asing."</p></div></div></div>
+                <div class="tech-requirements glass-panel"><h3><i class="fas fa-microchip"></i> Format Komik Digital</h3><div class="tech-grid"><div class="tech-item"><strong>Konvensional Digital</strong><br>2480x3508 px, 150 dpi, min 12 halaman</div><div class="tech-item"><strong>Webtoon</strong><br>800x20000 px, 150 dpi, min 20 panel</div><div class="tech-item"><strong>Comic Carousel</strong><br>2048x2048 px, 150 dpi, min 10 halaman</div></div><p class="tech-note"><i class="fas fa-info-circle"></i> Font: Anime Ace / Laffayette Comic Pro | Wajib berwarna | Dilarang AI!</p></div>
+            </div>
+        </section>
+
+        <!-- Tips & Trik Accordion -->
+        <section class="tips-section scroll-reveal">
+            <div class="container"><div class="section-header"><span class="section-tag">MASTERCLASS</span><h2>💡 Tips & Trik <span class="gradient-text">Juara FLS3N</span></h2><p>Kumpulan rahasia dari para juri dan desainer profesional</p></div>
+            <div class="accordion-container glass-panel"><div class="accordion-item"><div class="accordion-header"><i class="fas fa-paintbrush"></i><span>Tips Poster yang Menarik Perhatian Juri</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content"><ul><li><strong>Hierarki Visual:</strong> Gunakan ukuran font minimal 72 pt untuk judul agar terbaca dari jarak 5 meter.</li><li><strong>Kontras Warna:</strong> Kombinasikan warna gelap dengan aksen neon untuk efek "pop" yang memikat mata.</li><li><strong>Gunakan Grid System:</strong> Tata letak yang terstruktur membuat poster lebih profesional dan mudah dibaca.</li><li><strong>Keterbacaan Tinggi:</strong> Teks harus kontras dengan latar belakang, hindari warna yang terlalu mirip.</li><li><strong>Elemen Utama Jangan Ter-offset:</strong> Pastikan tidak ada elemen penting yang terpotong di tepi poster.</li></ul></div></div>
+            <div class="accordion-item"><div class="accordion-header"><i class="fas fa-book-open"></i><span>Tips Komik yang Bikin Pembaca Ketagihan</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content"><ul><li><strong>Storyboard Wajib:</strong> Jangan langsung menggambar final! Buat sketsa kasar dulu untuk merencanakan alur.</li><li><strong>Variasikan Ukuran Panel:</strong> Panel besar untuk momen penting, panel kecil untuk aksi cepat atau close-up emosi.</li><li><strong>Pacing yang Tepat:</strong> Gunakan gutter (jarak antar panel) lebar untuk jeda dramatis, sempit untuk aksi cepat.</li><li><strong>Ekspresi Wajah:</strong> Jangan hanya mengandalkan dialog, biarkan wajah karakter yang berbicara.</li><li><strong>Aturan 180 Derajat:</strong> Jaga konsistensi arah hadap karakter agar tidak membingungkan pembaca.</li></ul></div></div>
+            <div class="accordion-item"><div class="accordion-header"><i class="fas fa-exclamation-triangle"></i><span>Kesalahan Umum Peserta (Hindari Ini!)</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content"><ul><li><strong>Terlalu Banyak Font:</strong> Maksimal 2-3 jenis font dalam satu karya agar tidak terlihat berantakan.</li><li><strong>Resolusi Rendah:</strong> Gunakan minimal 150 DPI untuk digital, 300 DPI jika akan dicetak.</li><li><strong>Plagiarisme & AI:</strong> Juri sangat paham! Karya asli selalu lebih dihargai daripada hasil AI.</li><li><strong>Mengabaikan Rubrik Penilaian:</strong> Baca dan patuhi semua ketentuan teknis yang diminta.</li><li><strong>Teks Sulit Dibaca:</strong> Ukuran font terlalu kecil atau warna tidak kontras dengan background.</li></ul></div></div>
+            <div class="accordion-item"><div class="accordion-header"><i class="fas fa-trophy"></i><span>Cara Agar Karyamu Menang Lomba</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content"><ul><li><strong>Pesan yang Jelas:</strong> Sampaikan satu pesan utama yang kuat dan mudah diingat.</li><li><strong>Originalitas Tinggi:</strong> Kembangkan gaya visualmu sendiri, jangan ikut-ikutan tren yang sudah usang.</li><li><strong>Kualitas Teknis:</strong> Pastikan tidak ada kesalahan ejaan, warna tidak pecah, dan garis rapi.</li><li><strong>Dokumentasi Lengkap:</strong> Sertakan storyboard, timelapse, dan surat keaslian sebagai bukti proses.</li><li><strong>Konsep yang Matang:</strong> Jelaskan ide dan makna di balik karyamu dengan baik dalam file konsep.</li></ul></div></div></div></div>
+        </section>
+
+        <!-- Contoh Panel Interaktif Before-After -->
+        <section class="example-section scroll-reveal">
+            <div class="container"><div class="section-header"><span class="section-tag">VISUAL INSPIRATION</span><h2>🎭 <span class="gradient-text">Before vs After</span> Contoh Karya</h2><p>Lihat bagaimana perubahan kecil bisa membuat karya jauh lebih profesional</p></div>
+            <div class="beforeafter-container glass-panel"><h3><i class="fas fa-poster"></i> Desain Poster</h3>
+                <div class="slider-container"><div class="beforeafter-slider"><div class="beforeafter-image before"><div class="beforeafter-label">SEBELUM</div><div class="sample-before"><i class="fas fa-image"></i><p>Poster terlalu ramai, font tidak konsisten, warna mencolok tanpa tujuan, tidak ada hierarki visual yang jelas. Pesan utama tenggelam.</p></div></div><div class="beforeafter-image after"><div class="beforeafter-label">SESUDAH</div><div class="sample-after"><i class="fas fa-image"></i><p>Hierarki jelas (judul besar), warna harmonis dengan aksen neon, ruang kosong yang seimbang, pesan utama "STOP BULLYING DIGITAL" langsung terbaca.</p></div></div></div><div class="slider-handle"><div class="slider-line"></div><div class="slider-circle"><i class="fas fa-arrows-left-right"></i></div></div><input type="range" min="0" max="100" value="50" class="slider-input"></div>
+                <div class="explanation"><strong>✨ Kenapa Lebih Bagus?</strong> Poster "Sesudah" menggunakan prinsip hierarki visual, kontras warna yang tepat, dan ruang kosong yang membuat pesan lebih mudah dipahami dalam sekejap mata.</div>
+            </div>
+            <div class="beforeafter-container glass-panel"><h3><i class="fas fa-book"></i> Komik Digital</h3>
+                <div class="slider-container"><div class="beforeafter-slider comic"><div class="beforeafter-image before"><div class="beforeafter-label">STORYBOARD</div><div class="sample-storyboard"><i class="fas fa-drafting-compass"></i><p>Sketsa kasar panel: 1) Karakter main game, 2) Ada chat masuk, 3) Close-up ekspresi bingung, 4) Memutuskan ignore. Alur sudah jelas.</p></div></div><div class="beforeafter-image after"><div class="beforeafter-label">FINAL ARTWORK</div><div class="sample-final"><i class="fas fa-palette"></i><p>Panel jadi dengan line art rapi, pewarnaan penuh, ekspresi karakter hidup, dan balon teks yang mudah dibaca.</p></div></div></div><div class="slider-handle"><div class="slider-line"></div><div class="slider-circle"><i class="fas fa-arrows-left-right"></i></div></div><input type="range" min="0" max="100" value="50" class="slider-input"></div>
+                <div class="explanation"><strong>✨ Proses Kreatif:</strong> Storyboard adalah fondasi komik yang baik. Dari sketsa sederhana, kamu bisa mengembangkan menjadi karya final yang memukau tanpa kehilangan alur cerita.</div>
+            </div></div>
+        </section>
+
+        <!-- Video Pembelajaran -->
+        <section class="video-section scroll-reveal"><div class="container"><div class="section-header"><span class="section-tag">VIDEO TUTORIAL</span><h2>🎬 <span class="gradient-text">Belajar dari Expert</span></h2><p>Tingkatkan komposisi ilustrasimu jadi lebih keren</p></div>
+        <div class="video-wrapper glass-panel"><div class="video-container"><iframe src="https://www.youtube.com/embed/dLQFXkWe5Ew?si=xAbyRx1eME1XnBLz" title="Tutorial Komposisi Gambar" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><p class="video-caption"><i class="fas fa-headphones"></i> Tutorial Komposisi Gambar / Ilustrasi - Buat Gambarmu Makin Keren</p></div></div></section>
+
+        <!-- Footer -->
+        <footer class="footer glass-panel"><div class="container"><div class="footer-content"><div class="footer-logo"><i class="fas fa-palette"></i><span>FLS3N 2026 Creative Hub</span><p>Platform pembelajaran interaktif untuk Desain Poster & Komik Digital</p></div><div class="footer-links"><h4>Quick Links</h4><a href="index.html">Home</a><a href="pages/poster.html">Desain Poster</a><a href="pages/komik.html">Komik Digital</a><a href="pages/latihan.html">Simulasi</a></div><div class="footer-quote"><i class="fas fa-quote-left"></i><p>Jangan hanya berkarya, tapi sampaikan makna</p><span>— FLS3N 2026 —</span></div></div><div class="footer-bottom"><p>© 2026 Pusat Prestasi Nasional - Kemdikbudristek</p></div></div></footer>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/interactive.js"></script>
+    <script src="assets/js/generator.js"></script>
+</body>
+</html>

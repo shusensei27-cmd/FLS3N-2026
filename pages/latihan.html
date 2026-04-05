@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi - FLS3N 2026 Creative Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Gaya dasar (mirip dengan style.css Anda, ditambah chat bubble) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #050510 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 25, 45, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+            padding: 12px 24px;
+            transition: all 0.3s;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .logo i { color: #00d4ff; text-shadow: 0 0 10px #00d4ff; }
+        .neon { color: #00d4ff; text-shadow: 0 0 8px #00d4ff; }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            transition: 0.3s;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a.active { color: #00d4ff; text-shadow: 0 0 5px #00d4ff; }
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+        }
+        .hero {
+            margin: 100px auto 40px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf, #ff2d95);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .chat-panel {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .chat-panel h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .chat-messages {
+            min-height: 400px;
+            max-height: 500px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 10px;
+        }
+        .chat-bubble {
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 90%;
+            word-wrap: break-word;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: fadeInUp 0.3s ease;
+        }
+        .chat-bubble.user {
+            background: linear-gradient(135deg, #1a2a3a, #0f1a2a);
+            border-left: 3px solid #00d4ff;
+            align-self: flex-start;
+            border-radius: 20px 20px 20px 4px;
+        }
+        .chat-bubble.ai {
+            background: linear-gradient(135deg, #2a1a3a, #1a0a2a);
+            border-right: 3px solid #7b2cbf;
+            align-self: flex-end;
+            border-radius: 20px 20px 4px 20px;
+        }
+        .chat-bubble.ai.error {
+            border-right-color: #ff4444;
+        }
+        .chat-bubble i {
+            margin-right: 8px;
+        }
+        .generate-btn {
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .generate-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px #00d4ff;
+        }
+        .footer {
+            margin-top: 60px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 32px 32px 0 0;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @media (max-width: 768px) {
+            .two-columns { grid-template-columns: 1fr; }
+            .burger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 70%;
+                height: calc(100vh - 80px);
+                background: rgba(10,10,26,0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px;
+                transition: left 0.3s;
+                gap: 24px;
+            }
+            .nav-links.active { left: 0; }
+            .hero-title { font-size: 2rem; }
+        }
+        /* custom scroll */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1a1a2e;
+            border-radius: 10px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #00d4ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar glass-panel">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-palette"></i><span class="logo-text">FLS3N<span class="neon">2026</span></span></div>
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html">🏠 Home</a>
+                <a href="poster.html">🎨 Desain Poster</a>
+                <a href="komik.html">📚 Komik Digital</a>
+                <a href="latihan.html" class="active">⚡ Simulasi</a>
+            </div>
+            <div class="burger" id="burger">
+                <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero glass-panel">
+            <div class="hero-content">
+                <h1 class="hero-title"><span class="gradient-text">Simulasi Generator Ide</span></h1>
+                <p class="hero-subtitle">Klik tombol di bawah untuk mendapatkan ide poster atau komik. Setiap bagian punya riwayat chat sendiri.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="two-columns">
+                <!-- KOLOM POSTER -->
+                <div class="chat-panel glass-panel">
+                    <h2><i class="fas fa-paintbrush" style="color:#00d4ff"></i> Generator Ide Poster</h2>
+                    <div class="chat-messages" id="posterChat">
+                        <!-- Bubble chat awal akan ditambahkan oleh JS -->
+                    </div>
+                    <button id="generatePosterBtn" class="generate-btn"><i class="fas fa-magic"></i> Generate Ide Poster</button>
+                </div>
+
+                <!-- KOLOM KOMIK -->
+                <div class="chat-panel glass-panel">
+                    <h2><i class="fas fa-book-open" style="color:#7b2cbf"></i> Generator Ide Komik</h2>
+                    <div class="chat-messages" id="komikChat">
+                        <!-- Bubble chat awal -->
+                    </div>
+                    <button id="generateKomikBtn" class="generate-btn"><i class="fas fa-magic"></i> Generate Ide Komik</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer glass-panel">
+            <p>© 2026 Anak SMAN1S - FFLS3N</p>
+        </footer>
+    </main>
+
+    <script>
+        const WORKER_URL = 'https://long-smoke-42e8.shusensei27.workers.dev'; // GANTI
+
+        async function addMessage(container, role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-bubble ${role}`;
+            if (role === 'user') {
+                messageDiv.innerHTML = `<i class="fas fa-user"></i> <strong>Prompt:</strong><br>${content}`;
+            } else {
+                messageDiv.innerHTML = `<i class="fas fa-robot"></i> <strong>AI Response:</strong><br>${content.replace(/\n/g, '<br>')}`;
+            }
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function generatePoster() {
+            const chatContainer = document.getElementById('posterChat');
+            const promptText = "Buatkan ide poster untuk lomba FLS3N 2026 tentang ruang digital remaja. Target 15-18 tahun.";
+            addMessage(chatContainer, 'user', promptText);
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'chat-bubble ai';
+            loadingDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> AI sedang berpikir...';
+            chatContainer.appendChild(loadingDiv);
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jenis: 'poster' })
+                });
+                const data = await response.json();
+                loadingDiv.remove();
+                if (data.success) {
+                    addMessage(chatContainer, 'ai', data.ide);
+                } else {
+                    addMessage(chatContainer, 'ai', 'Error: ' + data.error);
+                }
+            } catch (err) {
+                loadingDiv.remove();
+                addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message);
+            }
+        }
+
+        async function generateKomik() {
+            const chatContainer = document.getElementById('komikChat');
+            const promptText = "Buatkan ide cerita komik digital untuk lomba FLS3N 2026 dengan tema karakter bangsa di ruang digital.";
+            addMessage(chatContainer, 'user', promptText);
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'chat-bubble ai';
+            loadingDiv.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> AI sedang berpikir...';
+            chatContainer.appendChild(loadingDiv);
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jenis: 'komik' })
+                });
+                const data = await response.json();
+                loadingDiv.remove();
+                if (data.success) {
+                    addMessage(chatContainer, 'ai', data.ide);
+                } else {
+                    addMessage(chatContainer, 'ai', 'Error: ' + data.error);
+                }
+            } catch (err) {
+                loadingDiv.remove();
+                addMessage(chatContainer, 'ai', 'Gagal konek ke server: ' + err.message);
+            }
+        }
+
+        // Inisialisasi chat kosong (atau dengan sambutan)
+        function initChats() {
+            const posterContainer = document.getElementById('posterChat');
+            const komikContainer = document.getElementById('komikChat');
+            posterContainer.innerHTML = '';
+            komikContainer.innerHTML = '';
+            addMessage(posterContainer, 'ai', '👋 Halo! Klik tombol di bawah untuk mendapatkan ide poster dari AI.');
+            addMessage(komikContainer, 'ai', '📖 Halo! Klik tombol untuk mendapatkan ide cerita komik dari AI.');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChats();
+            document.getElementById('generatePosterBtn').addEventListener('click', generatePoster);
+            document.getElementById('generateKomikBtn').addEventListener('click', generateKomik);
+            // burger menu jika ada
+            const burger = document.getElementById('burger');
+            const navLinks = document.getElementById('navLinks');
+            if (burger) burger.addEventListener('click', () => navLinks.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>
